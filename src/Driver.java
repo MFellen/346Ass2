@@ -55,7 +55,7 @@ public class Driver {
                 scheduler = new RR(queue);
                 break;
             case "PRI-RR":
-                scheduler = new PriorityRR(queue);
+                scheduler = new FairShare(queue);
                 break;
             default:
                 System.err.println("Invalid algorithm");

@@ -1,4 +1,5 @@
 public class RR implements Algorithm{
+    //Use circular queue
     @Override
     public void schedule() {
 

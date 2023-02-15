@@ -1,4 +1,4 @@
-public class PriorityRR implements Algorithm{
+public class FairShare implements Algorithm{
     @Override
     public void schedule() {
 
