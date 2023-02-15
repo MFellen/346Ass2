@@ -54,7 +54,7 @@ public class Driver {
             case "RR":
                 scheduler = new RR(queue);
                 break;
-            case "PRI-RR":
+            case "FS":
                 scheduler = new FairShare(queue);
                 break;
             default:
