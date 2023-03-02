@@ -21,8 +21,6 @@ public class RR implements Algorithm{
         System.out.println("Round Robin Scheduler");//Scheduler name
 
         decrementBurst(pickNextTask());
-
-        System.out.println("Average times: waiting [" + avrWaitingTime + "], turnaround [" + avrTurnaroundTime + "]");//Average times: waiting [X], turnaround: [Y]
     }
 
 
@@ -39,14 +37,11 @@ public class RR implements Algorithm{
     private void decrementBurst(Task task) {
         //Decrement CPU Burst by q = 10ms
         task.setBurst(task.getBurst() - 10);
-        System.out.println("Decremented CPU Burst of " + task);
 
         if (isFinished(task)){
             queue.remove(task);
-            System.out.println("Task " + task.getName() + " finished");
         }
 
-        System.out.println("Moves on to next task");
         reachedEndQueue();
     }
 
@@ -55,12 +50,22 @@ public class RR implements Algorithm{
         return task.getBurst() <= 0;
     }
 
-    private void reachedEndQueue() {
-        if (taskIndex < queue.size()){
-            taskIndex++;//Increments index once previous task is done running its quantum
-        } else if (taskIndex >= queue.size() && !queue.isEmpty()) {
+    private void reachedEndQueue() {//Checks if index has reached end of queue
+        taskIndex++;//Increments index once previous task is done running its quantum
+
+
+        if (taskIndex >= queue.size() && !queue.isEmpty()) {
             taskIndex = 0;//Resets index to beginning of queue to run remaining tasks
+        } else if (queue.isEmpty()) {
+            calculateAverages();//Average waiting time and average turnaround time gets calculated once the queue is empty
         }
-        decrementBurst(pickNextTask());
+
+        if (taskIndex < queue.size()){
+            decrementBurst(pickNextTask());
+        }
+    }
+
+    private void calculateAverages() {
+        System.out.println("Average times: waiting [" + avrWaitingTime + "], turnaround [" + avrTurnaroundTime + "]");//Average times: waiting [X], turnaround: [Y]
     }
 }
