@@ -6,7 +6,7 @@ import java.util.List;
 import static java.lang.System.currentTimeMillis;
 
 public class FCFS implements Algorithm {
-    List<Task> tasks = new ArrayList<>();
+    private List<Task> tasks;
     private int completionTime;
     private int avgWaiting;
     private int avgTurnAround;
@@ -17,36 +17,38 @@ public class FCFS implements Algorithm {
 
     public FCFS(List<Task> queue) {
         tasks = queue;
-
     }
-    // while iterating through queue..
-    // check queue-> run first available task
-    // take time values...
-    // pick next task-> the one right after in the queue..
-    //
 
     @Override
     public void schedule() { //Scheduler, will implement the algorithm
 
-        CPU cpu = new CPU(); // this is a mistake delete this line
         int turnAround;
-
-        Task current = pickNextTask(); // this needs to be in the while loop because then it wont change current while in the loop
-        int burst = current.getBurst();
+        int size = tasks.size();
 
         while(!tasks.isEmpty()) {
-            //Will output the info about current running task
+            Task current = pickNextTask();
+
             tasks.remove(current);
-            cpu.run(current, burst); //  CPU.run("") after deleting the other line
+            CPU.run(current, current.getBurst()); //  CPU.run("") after deleting the other line
             current.toString();
 
             //get turnaround and waiting
             waiting = startCPU-arrivalTime;
-            turnAround = burst + waiting;
+                System.out.print("waiting : " + waiting );
+            turnAround = current.getBurst() + waiting;
+                System.out.println(", turnaround : " + turnAround );
+            completionTime = arrivalTime + current.getBurst();
 
-            avgWaiting += waiting; //this is not an average its a total
-            avgTurnAround += turnAround; //^
+            avgWaiting += waiting;
+            avgTurnAround += turnAround;
+
+            System.out.println("Task " + current.getName() + " finished\n");
+            startCPU = completionTime; // start of next process is the
         }
+        avgTurnAround = avgTurnAround / size;
+        avgWaiting = avgWaiting / size;
+        System.out.println("Average times: waiting " + avgWaiting + ", turnaround: " +  avgTurnAround);
+
 
 
     }
@@ -55,13 +57,13 @@ public class FCFS implements Algorithm {
     public Task pickNextTask() { //Will pick tasks to be executed by CPU
 
         Task nextTask = null;
-        if(tasks.isEmpty())
-        {
-            return null;
-        }
-        for(Task tk : tasks)
-        {
-            nextTask = tk;
+
+        for(Task tk : tasks) {
+            if (!tasks.isEmpty()) {
+                nextTask = tk;
+            } else {
+                return null;
+            }
         }
 
         return nextTask;
