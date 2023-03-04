@@ -28,24 +28,24 @@ public class FCFS implements Algorithm {
     @Override
     public void schedule() { //Scheduler, will implement the algorithm
 
-        CPU cpu = new CPU();
+        CPU cpu = new CPU(); // this is a mistake delete this line
         int turnAround;
 
-        Task current = pickNextTask();
+        Task current = pickNextTask(); // this needs to be in the while loop because then it wont change current while in the loop
         int burst = current.getBurst();
 
         while(!tasks.isEmpty()) {
             //Will output the info about current running task
             tasks.remove(current);
-            cpu.run(current, burst);
+            cpu.run(current, burst); //  CPU.run("") after deleting the other line
             current.toString();
 
             //get turnaround and waiting
             waiting = startCPU-arrivalTime;
             turnAround = burst + waiting;
 
-            avgWaiting += waiting;
-            avgTurnAround += turnAround;
+            avgWaiting += waiting; //this is not an average its a total
+            avgTurnAround += turnAround; //^
         }
 
 
