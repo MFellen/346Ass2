@@ -7,10 +7,10 @@ import static java.lang.System.currentTimeMillis;
 
 public class FCFS implements Algorithm {
     private List<Task> tasks;
-    private int completionTime;
+    private static int completionTime = 0;
     private int avgWaiting;
     private int avgTurnAround;
-    private static int arrivalTime = 0;
+//    private static int arrivalTime = 0;
     private static int startCPU = 0;
     private static int waiting = 0;
 
@@ -26,24 +26,27 @@ public class FCFS implements Algorithm {
         int size = tasks.size();
 
         while(!tasks.isEmpty()) {
+
             Task current = pickNextTask();
 
             tasks.remove(current);
+
+
             CPU.run(current, current.getBurst()); //  CPU.run("") after deleting the other line
             current.toString();
-
+//
             //get turnaround and waiting
-            waiting = startCPU-arrivalTime;
-                System.out.print("waiting : " + waiting );
+            waiting = startCPU;
+//                System.out.print("waiting : " + waiting );
             turnAround = current.getBurst() + waiting;
-                System.out.println(", turnaround : " + turnAround );
-            completionTime = arrivalTime + current.getBurst();
+//                System.out.println(", turnaround : " + turnAround );
+            completionTime += current.getBurst();
 
             avgWaiting += waiting;
             avgTurnAround += turnAround;
 
             System.out.println("Task " + current.getName() + " finished\n");
-            startCPU = completionTime; // start of next process is the
+            startCPU = completionTime; // start of next process is the end of current process
         }
         avgTurnAround = avgTurnAround / size;
         avgWaiting = avgWaiting / size;
@@ -58,13 +61,15 @@ public class FCFS implements Algorithm {
 
         Task nextTask = null;
 
-        for(Task tk : tasks) {
             if (!tasks.isEmpty()) {
-                nextTask = tk;
+
+                nextTask = tasks.get(0);
             } else {
+
                 return null;
+
             }
-        }
+
 
         return nextTask;
     }
