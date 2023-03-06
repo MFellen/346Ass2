@@ -12,8 +12,6 @@ public class FCFS implements Algorithm {
     private int avgTurnAround;
 //    private static int arrivalTime = 0;
     private static int startCPU = 0;
-    private static int waiting = 0;
-
 
     public FCFS(List<Task> queue) {
         tasks = queue;
@@ -22,24 +20,24 @@ public class FCFS implements Algorithm {
     @Override
     public void schedule() { //Scheduler, will implement the algorithm
 
+        int waiting;
         int turnAround;
         int size = tasks.size();
 
         while(!tasks.isEmpty()) {
 
-            Task current = pickNextTask();
+            Task current = pickNextTask(); // assigning next task as current one
 
-            tasks.remove(current);
+            tasks.remove(current);         // removing it from the list, indicating that it is no longer in ready state
 
 
-            CPU.run(current, current.getBurst()); //  CPU.run("") after deleting the other line
-//            current.toString();
+            CPU.run(current, current.getBurst()); //  This method will run the current chosen Task
 //
             //get turnaround and waiting
             waiting = startCPU;
-//                System.out.print("waiting : " + waiting );
+//                System.out.print("waiting : " + waiting );  // used for testing
             turnAround = current.getBurst() + waiting;
-//                System.out.println(", turnaround : " + turnAround );
+//                System.out.println(", turnaround : " + turnAround ); // used for testing
             completionTime += current.getBurst();
 
             avgWaiting += waiting;
@@ -57,7 +55,7 @@ public class FCFS implements Algorithm {
     }
 
     @Override
-    public Task pickNextTask() { //Will pick tasks to be executed by CPU
+    public Task pickNextTask() { //Will pick tasks to be executed by CPU, specifically the first one in the list
 
         Task nextTask = null;
 
