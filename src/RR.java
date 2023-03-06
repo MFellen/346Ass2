@@ -23,7 +23,7 @@ public class RR implements Algorithm {
 
     @Override
     public void schedule() {
-        System.out.println("Round Robin Scheduler 2");//Scheduler name
+        System.out.println("Round Robin Scheduler");//Scheduler name
 
         while (queue.size() > 0) decrementBurst(pickNextTask());
 
@@ -33,7 +33,7 @@ public class RR implements Algorithm {
     @Override
     public Task pickNextTask() {
         Task task = queue.get(taskIndex);
-        System.out.println("Will run " + task.toString());
+        CPU.run(task, quantum);
 
         return task;
     }
@@ -57,15 +57,12 @@ public class RR implements Algorithm {
     }
 
     private void addTurnAroundTime(Task task, int runTime) {
-        System.out.println("Turnaround time added for task " + task.getName());
         if (turnaroundTime.containsKey(task.getTid())) {
             //Checks if this isn't the first time it ran
             turnaroundTime.put(task.getTid(), turnaroundTime.get(task.getTid()) + runTime);
         } else {
             turnaroundTime.put(task.getTid(), runTime);
         }
-
-        System.out.println("Turnaround time: " + turnaroundTime.get(task.getTid()));
     }
 
     private void addWaitingTime(Task task) {
