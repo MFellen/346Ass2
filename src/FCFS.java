@@ -33,7 +33,7 @@ public class FCFS implements Algorithm {
 
 
             CPU.run(current, current.getBurst()); //  CPU.run("") after deleting the other line
-            current.toString();
+//            current.toString();
 //
             //get turnaround and waiting
             waiting = startCPU;
