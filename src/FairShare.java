@@ -33,19 +33,19 @@ public class FairShare implements Algorithm{
             tasks.remove(task);
             if (task.getBurst() <= userQuantum){
                 System.out.println(task.getName() + " Finished");
+                int wait = currentTime;
+                totalWait += wait;
                 currentTime += task.getBurst();
                 int turn = currentTime;
-                totalTurn += turn;int wait = currentTime;
-                totalWait += wait;
+                totalTurn += turn;
             }
             else {
                 tasks.add(task);
+                int wait = currentTime;
+                totalWait += wait;
                 currentTime += userQuantum;
                 task.setBurst(task.getBurst()-userQuantum);
             }
-            int wait = currentTime;
-            totalWait += wait;
-
 //            System.out.println("Wait: " + wait + " Turn: " + turn + "\n");
         } while (!tasks.isEmpty());
         completionTime = currentTime;
