@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FairShare implements Algorithm{
@@ -9,14 +10,14 @@ public class FairShare implements Algorithm{
     private static int arrivalTime = 0;
     int quantum = 30;
     int userQuantum;
-    int totalBurst = 0;
     int numberTasks;
+    HashMap<String, Integer> taskBurst = new HashMap<>();
     List<Task> userTasks = new ArrayList<>();
     int user  = 0;
     public FairShare(List<Task> queue) {
         tasks = queue;
         for (Task task : tasks){
-            totalBurst += task.getBurst();
+            taskBurst.put(task.getName(), task.getBurst());
         }
         numberTasks = tasks.size();
     }
@@ -33,16 +34,14 @@ public class FairShare implements Algorithm{
             tasks.remove(task);
             if (task.getBurst() <= userQuantum){
                 System.out.println(task.getName() + " Finished");
-                int wait = currentTime;
-                totalWait += wait;
                 currentTime += task.getBurst();
                 int turn = currentTime;
                 totalTurn += turn;
+                int wait = turn - taskBurst.get(task.getName());
+                totalWait += wait;
             }
             else {
                 tasks.add(task);
-                int wait = currentTime;
-                totalWait += wait;
                 currentTime += userQuantum;
                 task.setBurst(task.getBurst()-userQuantum);
             }
@@ -50,7 +49,7 @@ public class FairShare implements Algorithm{
         } while (!tasks.isEmpty());
         completionTime = currentTime;
         System.out.println("Completion Time: " + completionTime);
-        avgWaiting = (totalWait - totalBurst) / numberTasks;
+        avgWaiting = totalWait / numberTasks;
         avgTurnAround = totalTurn / numberTasks;
         System.out.println("avgTurn: " + avgTurnAround+ " avgWait: " + avgWaiting);
     }
