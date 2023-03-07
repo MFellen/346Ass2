@@ -6,8 +6,8 @@ public class Priority implements Algorithm{
 
     List<Task> tasks = new ArrayList<>();
     private int completionTime;
-    private int avgWaiting;
-    private int avgTurnAround;
+    private double avgWaiting;
+    private double avgTurnAround;
     private static int arrivalTime = 0;
 
 
@@ -29,6 +29,7 @@ public class Priority implements Algorithm{
             currentTime += task.getBurst();
             int turn = currentTime;
             totalTurn += turn;
+            System.out.println("Wait: " + wait + " Turn: " + turn + "\n");
         }
         completionTime = currentTime;
         System.out.println("Completion Time: " + completionTime);

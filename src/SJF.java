@@ -5,8 +5,8 @@ public class SJF implements Algorithm{
     List<Task> tasks;
 
     private int completionTime;
-    private int avgWaiting;
-    private int avgTurnAround;
+    private double avgWaiting;
+    private double avgTurnAround;
     private static int arrivalTime = 0;
 
     public SJF(List<Task> queue) {
@@ -28,6 +28,7 @@ public class SJF implements Algorithm{
             currentTime += task.getBurst();
             int turn = currentTime;
             totalTurn += turn;
+            System.out.println("Wait: " + wait + " Turn: " + turn + "\n");
         }
         completionTime = currentTime;
         System.out.println("Completion Time: " + completionTime);
