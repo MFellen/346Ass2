@@ -1,16 +1,11 @@
-import java.sql.Array;
-import java.util.ArrayList;
 import java.util.List;
-//import java.time.*;
 
-import static java.lang.System.currentTimeMillis;
 
 public class FCFS implements Algorithm {
     private List<Task> tasks;
     private static int completionTime = 0;
     private int avgWaiting;
     private int avgTurnAround;
-//    private static int arrivalTime = 0;
     private static int startCPU = 0;
 
     public FCFS(List<Task> queue) {
